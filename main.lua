@@ -51,6 +51,13 @@ function love.load()
         w = 120,
         h = 305,
     }
+    -- Initialize Trash
+    trash = {
+        x = config.WINDOW_W - 150 - 20,
+        y = config.WINDOW_H - 150 - 20,
+        w = 90,
+        h = 60,
+    }
 
     -- Initialize player
     player = player_module.create(config)
@@ -161,7 +168,14 @@ function love.keypressed(key)
                 player.plateOrder = oName
                 return
             end
-
+            local isNearTrash = utils.isNearTrash(player, trash)
+            if isNearTrash and player.hasPlate then
+                -- Discard plate
+                player.hasPlate = false
+                player.plateOrder = nil
+                game.misses = game.misses + 1
+                return
+            end
             -- Try to serve customers
             local servedAny = false
             for i = #entities.customers, 1, -1 do
@@ -225,6 +239,7 @@ function love.draw()
     -- Draw game elements
     draw_module.drawKitchen(kitchen, entities, config)
     draw_module.drawTables(entities.tables, config)
+    draw_module.drawTrash(trash, config)
     draw_module.drawCustomers(entities.customers, config)
     draw_module.drawCube(cube, config)
     draw_module.drawPlayer(player, config)

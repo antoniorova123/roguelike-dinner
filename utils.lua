@@ -18,6 +18,14 @@ function utils.isNearOrder(player, orders)
     return false, nil
 end
 
+function utils.isNearTrash(player, trash)
+    local px, py = player.x + player.w/2, player.y + player.h/2
+    if px >= trash.x and px <= trash.x + trash.w and py >= trash.y and py <= trash.y + trash.h then
+        return true
+    end
+    return false
+end
+
 function utils.isNearCustomer(player, customer, range)
     return utils.distance({x = player.x + player.w / 2, y = player.y + player.h / 2}, {x = customer.x, y = customer.y}) < range
 end

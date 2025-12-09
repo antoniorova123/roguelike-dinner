@@ -20,6 +20,7 @@ config.ORDERS = {"Burger", "Salad", "Soup", "Fries", "Taco"}
 config.COLORS = {
     background = {0.15, 0.17, 0.2},
     kitchen = {0.2, 0.35, 0.2},
+    trash = {0.2, 0.35, 0.2},
     table_occupied = {0.45, 0.35, 0.25},
     table_empty = {0.25, 0.25, 0.25},
     player = {0.2, 0.6, 1},

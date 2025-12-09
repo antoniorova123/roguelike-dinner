@@ -75,6 +75,14 @@ function draw_module.drawTables(tables, config)
     end
 end
 
+function draw_module.drawTrash(trash, config)
+    local lg = love.graphics
+    lg.setColor(unpack(config.COLORS.trash))
+    lg.rectangle('fill', trash.x, trash.y, trash.w, trash.h, 6, 6)
+    lg.setColor(unpack(config.COLORS.text_white))
+    lg.printf("TRASH", trash.x, trash.y - 20, trash.w, 'center')
+end
+
 function draw_module.drawCustomers(customers, config)
     local lg = love.graphics
     for _, c in ipairs(customers) do

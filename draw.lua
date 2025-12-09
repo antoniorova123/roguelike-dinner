@@ -12,7 +12,8 @@ function draw_module.drawMenu(config)
 end
 
 
-function draw_module.drawKitchen(kitchen, config)
+
+function draw_module.drawKitchen(kitchen, entities, config)
     local lg = love.graphics
     -- Draw kitchen block
     lg.setColor(unpack(config.COLORS.kitchen))
@@ -36,6 +37,8 @@ function draw_module.drawKitchen(kitchen, config)
         {0.7, 0.4, 0.9},    -- purple-ish
     }
 
+    -- prepare or clear orders entity list so other systems can reference them
+    entities.orders = entities.orders or {}
     for i, order in ipairs(config.ORDERS) do
         local col = ((i - 1) % cols)
         local row = math.floor((i - 1) / cols)
@@ -54,6 +57,9 @@ function draw_module.drawKitchen(kitchen, config)
         -- border
         lg.setColor(unpack(config.COLORS.table_empty))
         lg.rectangle('line', x, y, rectW, rectH, 6, 6)
+        
+        -- save rectangle as an order entity so game logic can reference its position and size
+        entities.orders[i] = { name = order, x = x, y = y, w = rectW, h = rectH }
     end
 end
 

@@ -155,10 +155,10 @@ function love.keypressed(key)
 
         -- Interact with kitchen or customers
         if key == 'space' then
-            local nearKitchen = utils.isNearKitchen(player, kitchen)
-            if nearKitchen and not player.hasPlate then
+            local isNearOrder, oName = utils.isNearOrder(player, entities.orders)
+            if isNearOrder and not player.hasPlate then
                 player.hasPlate = true
-                player.plateOrder = config.ORDERS[love.math.random(#config.ORDERS)]
+                player.plateOrder = oName
                 return
             end
 
@@ -223,7 +223,7 @@ function love.draw()
     end
 
     -- Draw game elements
-    draw_module.drawKitchen(kitchen, config)
+    draw_module.drawKitchen(kitchen, entities, config)
     draw_module.drawTables(entities.tables, config)
     draw_module.drawCustomers(entities.customers, config)
     draw_module.drawCube(cube, config)

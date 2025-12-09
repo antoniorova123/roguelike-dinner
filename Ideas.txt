@@ -13,3 +13,16 @@ Cartas de mejora
 - Llegan mas clientes (Positivo o negativo?)
 
 - Velocidad de preparacion (Por comida)
+
+
+
+
+
+
+
+
+Metas:
+
+Dinero = Numero
+
+Dias

@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# roguelike-dinner
-=======
 # Dinner Dash - Rome Edition
 
 A simple Dinner Dash-style game prototype built with LÖVE (love2d) in Lua. Manage tables, serve customers, and level up with buffs in a roguelike-inspired fast-paced restaurant game.
@@ -67,4 +64,3 @@ The code is organized into modular files for easy maintenance and extension:
 ## License
 
 MIT - Feel free to modify and use as you wish!
->>>>>>> 694fa76 (Primera version del juego)

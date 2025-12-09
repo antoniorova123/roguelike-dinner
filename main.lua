@@ -49,7 +49,7 @@ function love.load()
         x = 60,
         y = config.WINDOW_H / 2 - 60,
         w = 120,
-        h = 240,
+        h = 305,
     }
 
     -- Initialize player

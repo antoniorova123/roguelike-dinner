@@ -11,14 +11,50 @@ function draw_module.drawMenu(config)
     lg.printf("Movimiento: WASD / Flechas. Interactuar: ESPACIO. Reiniciar: R", 0, 240, config.WINDOW_W, 'center')
 end
 
+
 function draw_module.drawKitchen(kitchen, config)
     local lg = love.graphics
+    -- Draw kitchen block
     lg.setColor(unpack(config.COLORS.kitchen))
-    for i
-
     lg.rectangle('fill', kitchen.x, kitchen.y, kitchen.w, kitchen.h, 6, 6)
     lg.setColor(unpack(config.COLORS.text_white))
     lg.printf("KITCHEN", kitchen.x, kitchen.y - 20, kitchen.w, 'center')
+
+    -- Draw colored rectangles for each order type (grid layout)
+    local rectW, rectH = 110, 44
+    local gapX, gapY = 12, 16
+    local cols = 1
+    local startX = kitchen.x + 5
+    local startY = kitchen.y + 6
+
+    -- simple color palette for orders (will cycle if more orders than colors)
+    local palette = {
+        {0.85, 0.35, 0.35}, -- red-ish
+        {0.35, 0.75, 0.35}, -- green-ish
+        {0.35, 0.55, 0.9},  -- blue-ish
+        {0.95, 0.8, 0.25},  -- yellow-ish
+        {0.7, 0.4, 0.9},    -- purple-ish
+    }
+
+    for i, order in ipairs(config.ORDERS) do
+        local col = ((i - 1) % cols)
+        local row = math.floor((i - 1) / cols)
+        local x = startX + col * (rectW + gapX)
+        local y = startY + row * (rectH + gapY) + 10
+
+        -- label on top of the rectangle
+        lg.setColor(unpack(config.COLORS.text_white))
+        lg.printf(order, x, y - 18, rectW, 'center')
+
+        -- rectangle colored by palette
+        local color = palette[((i - 1) % #palette) + 1]
+        lg.setColor(unpack(color))
+        lg.rectangle('fill', x, y, rectW, rectH, 6, 6)
+
+        -- border
+        lg.setColor(unpack(config.COLORS.table_empty))
+        lg.rectangle('line', x, y, rectW, rectH, 6, 6)
+    end
 end
 
 function draw_module.drawTables(tables, config)

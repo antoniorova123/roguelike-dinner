@@ -1,0 +1,15 @@
+Leonardo AI para assets 2D 
+
+Avances o el proyecto muere como todos los juegos que compramos: 1 Semana
+
+Cartas de mejora
+
+- Aumenta la paciencia del cliente
+
+- Mas velocidad de movimiento
+
+- Creeps (Meseros)
+
+- Llegan mas clientes (Positivo o negativo?)
+
+- Velocidad de preparacion (Por comida)

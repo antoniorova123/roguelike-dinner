@@ -1,0 +1,22 @@
+# LÖVE-specific
+*.love
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Dependencies (if any)
+/node_modules/
+
+# Temporary files
+*.tmp
+*.bak

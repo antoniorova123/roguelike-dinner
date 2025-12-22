@@ -29,6 +29,7 @@ local entities = {}
 local kitchen
 local cube
 
+
 -- Helper function to get current key states
 local function getInputKeys()
     return {
@@ -43,6 +44,12 @@ function love.load()
     love.window.setMode(config.WINDOW_W, config.WINDOW_H)
     love.window.setTitle("Dinner Dash - LÖVE (Prototype)")
     love.graphics.setFont(love.graphics.newFont(14))
+
+    -- Initialize Music
+    local music = love.audio.newSource('music/corazon_de_seda_Looping.mp3', 'stream')
+    music:setLooping(true)
+    music:setVolume(0.2)
+    love.audio.play(music)
 
     -- Initialize kitchen
     kitchen = {
@@ -99,8 +106,7 @@ function love.update(dt)
         end
 
         -- Update player movement
-        local keys = getInputKeys()
-        player_module.move(player, dt, config, keys)
+        player_module.move(player, dt, config)
 
         -- Update customers
         customer_module.update(entities, config, dt)
@@ -205,6 +211,12 @@ function love.keypressed(key)
                 game.misses = game.misses + 1
             end
         end
+    end
+end
+
+function love.mousepressed(x, y, button, istouch, presses)
+    if game.gameState == 'play' and button == 1 then  -- left click
+        player_module.setTarget(player, x, y)
     end
 end
 

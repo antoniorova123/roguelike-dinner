@@ -115,8 +115,10 @@ end
 
 function draw_module.drawPlayer(player, config)
     local lg = love.graphics
-    lg.setColor(unpack(config.COLORS.player))
-    lg.rectangle('fill', player.x, player.y, player.w, player.h, 4, 4)
+    lg.setColor(1, 1, 1, 1)
+    lg.draw(player.playerImage, player.x, player.y, 0, player.w / player.playerImage:getWidth(), player.h / player.playerImage:getHeight())
+    --
+    --lg.rectangle('fill', player.x, player.y, player.w, player.h, 4, 4)
     
     if player.hasPlate then
         lg.setColor(unpack(config.COLORS.text_white))

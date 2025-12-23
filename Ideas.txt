@@ -19,7 +19,7 @@ Cartas de mejora
 
 Por Hacer:
 
-Moverse por clicks (Guardar WASD para un futuro parche)
+Moverse por clicks (Guardar WASD para un futuro parche) - Check
 Barra de meta (Copiando funcionalidad de paciencia de cliente)
 
 

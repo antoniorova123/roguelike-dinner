@@ -14,7 +14,13 @@ config.CUSTOMER_PATIENCE = 20  -- seconds before they leave
 
 -- Game mechanics
 config.PLAYER_SPEED = 240
-config.ORDERS = {"Burger", "Salad", "Soup", "Fries", "Taco"}
+config.ORDERS = {
+    { name = "Burger", image = "Ghostpixxells_pixelfood/16_burger_dish.png" },
+    { name = "Salad",  image = "Ghostpixxells_pixelfood/68_macncheese_dish.png" },
+    { name = "Soup",   image = "Ghostpixxells_pixelfood/87_ramen.png" },
+    { name = "Fries",  image = "Ghostpixxells_pixelfood/45_frenchfries_dish.png" },
+    { name = "Taco",   image = "Ghostpixxells_pixelfood/100_taco_dish.png" },
+}
 
 -- UI Colors
 config.COLORS = {
@@ -29,5 +35,6 @@ config.COLORS = {
     text_white = {1, 1, 1},
     text_yellow = {1, 1, 0},
 }
+
 
 return config

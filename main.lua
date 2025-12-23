@@ -48,7 +48,7 @@ function love.load()
     -- Initialize Music
     local music = love.audio.newSource('music/corazon_de_seda_Looping.mp3', 'stream')
     music:setLooping(true)
-    music:setVolume(0.2)
+    music:setVolume(0)
     love.audio.play(music)
 
     -- Initialize kitchen
@@ -63,7 +63,8 @@ function love.load()
         x = config.WINDOW_W - 150 - 20,
         y = config.WINDOW_H - 150 - 20,
         w = 90,
-        h = 60,
+        h = 90,
+        trashImage = love.graphics.newImage('FreeAssets/Decor_TrashCan.png')
     }
 
     -- Initialize player
@@ -242,6 +243,7 @@ end
 
 function love.draw()
     love.graphics.clear(unpack(config.COLORS.background))
+    draw_module.drawBackground(config)
 
     if game.gameState == 'menu' then
         draw_module.drawMenu(config)

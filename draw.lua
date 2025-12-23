@@ -11,6 +11,12 @@ function draw_module.drawMenu(config)
     lg.printf("Movimiento: WASD / Flechas. Interactuar: ESPACIO. Reiniciar: R", 0, 240, config.WINDOW_W, 'center')
 end
 
+function draw_module.drawBackground(config)
+    local lg = love.graphics
+    local bgImage = lg.newImage('assets/background.png')
+    lg.draw(bgImage, 0, 0, 0, config.WINDOW_W / bgImage:getWidth(), config.WINDOW_H / bgImage:getHeight())
+end
+
 
 
 function draw_module.drawKitchen(kitchen, entities, config)
@@ -47,7 +53,7 @@ function draw_module.drawKitchen(kitchen, entities, config)
 
         -- label on top of the rectangle
         lg.setColor(unpack(config.COLORS.text_white))
-        lg.printf(order, x, y - 18, rectW, 'center')
+        lg.printf(order.name, x, y - 18, rectW, 'center')
 
         -- rectangle colored by palette
         local color = palette[((i - 1) % #palette) + 1]
@@ -65,20 +71,21 @@ end
 
 function draw_module.drawTables(tables, config)
     local lg = love.graphics
+    tableImage = love.graphics.newImage('FreeAssets/Decor_TableSet.png')
     for _, t in ipairs(tables) do
         if t.occupied then
             lg.setColor(unpack(config.COLORS.table_occupied))
         else
             lg.setColor(unpack(config.COLORS.table_empty))
         end
-        lg.rectangle('fill', t.x, t.y, t.w, t.h, 6, 6)
+        lg.draw(tableImage, t.x, t.y, 0, t.w / tableImage:getWidth(), t.h / tableImage:getHeight())
     end
 end
 
 function draw_module.drawTrash(trash, config)
-    local lg = love.graphics
+    local lg = love.graphics 
     lg.setColor(unpack(config.COLORS.trash))
-    lg.rectangle('fill', trash.x, trash.y, trash.w, trash.h, 6, 6)
+    lg.draw(trash.trashImage, trash.x, trash.y, 0, trash.w / trash.trashImage:getWidth(), trash.h / trash.trashImage:getHeight())
     lg.setColor(unpack(config.COLORS.text_white))
     lg.printf("TRASH", trash.x, trash.y - 20, trash.w, 'center')
 end
@@ -87,9 +94,9 @@ function draw_module.drawCustomers(customers, config)
     local lg = love.graphics
     for _, c in ipairs(customers) do
         lg.setColor(1, 1 - c.anger, 1 - c.anger)
-        lg.circle('fill', c.x, c.y - 22, 18)
+        lg.draw(c.foodImage, c.x - 16, c.y - 32)
+        -- lg.circle('fill', c.x, c.y - 22, 18)
         lg.setColor(0, 0, 0)
-        lg.printf(c.order, c.x - 40, c.y + 2, 80, 'center')
         
         -- Patience bar
         local barW = 60

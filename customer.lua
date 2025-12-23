@@ -40,7 +40,14 @@ function customer_module.spawnCustomer(entities, config)
     if not free then return end
     
     free.occupied = true
-    local order = config.ORDERS[love.math.random(#config.ORDERS)]
+    index = love.math.random(#config.ORDERS)
+    local order = config.ORDERS[index].name
+    for _, item in ipairs(config.ORDERS) do
+        if item.name == order then
+            foodImage = love.graphics.newImage(item.image)
+            break
+        end
+    end
     local cust = {
         x = free.x + free.w / 2,
         y = free.y + free.h / 2,
@@ -49,6 +56,7 @@ function customer_module.spawnCustomer(entities, config)
         patience = config.CUSTOMER_PATIENCE,
         served = false,
         anger = 0,
+        foodImage = foodImage
     }
     table.insert(entities.customers, cust)
 end

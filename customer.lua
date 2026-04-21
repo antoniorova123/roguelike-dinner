@@ -62,6 +62,7 @@ function customer_module.spawnCustomer(entities, config)
 end
 
 function customer_module.update(entities, config, dt)
+    local penalty = 0
     for i = #entities.customers, 1, -1 do
         local c = entities.customers[i]
         if not c.served then
@@ -70,9 +71,11 @@ function customer_module.update(entities, config, dt)
             if c.patience <= 0 then
                 c.table.occupied = false
                 table.remove(entities.customers, i)
+                penalty = penalty + 50
             end
         end
     end
+    return penalty
 end
 
 function customer_module.reset(entities)

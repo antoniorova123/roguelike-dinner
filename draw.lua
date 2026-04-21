@@ -65,7 +65,7 @@ function draw_module.drawKitchen(kitchen, entities, config)
         lg.rectangle('line', x, y, rectW, rectH, 6, 6)
         
         -- save rectangle as an order entity so game logic can reference its position and size
-        entities.orders[i] = { name = order, x = x, y = y, w = rectW, h = rectH }
+        entities.orders[i] = { name = order.name, x = x, y = y, w = rectW, h = rectH }
     end
 end
 

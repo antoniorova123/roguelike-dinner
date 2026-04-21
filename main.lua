@@ -18,6 +18,7 @@ local game = {
     gameTimer = config.GAME_TIME,
     spawnTimer = 0,
     buffsSelected = 0,
+    scoreMultiplier = 1,
     menuOpen = false,
     selectedMenuItem = 1,
     buffChoices = {},
@@ -107,10 +108,12 @@ function love.update(dt)
         end
 
         -- Update player movement
-        player_module.move(player, dt, config)
+        local keys = getInputKeys()
+        player_module.move(player, dt, config, keys)
 
         -- Update customers
-        customer_module.update(entities, config, dt)
+        local leavePenalty = customer_module.update(entities, config, dt)
+        game.score = math.max(0, game.score - leavePenalty)
     end
 end
 
@@ -145,7 +148,7 @@ function love.keypressed(key)
             selectedBuff.apply(player, config)
             
             if selectedBuff.name == "Score x2" then
-                game.score = game.score * 2
+                game.scoreMultiplier = game.scoreMultiplier * 2
             end
             
             game.buffsSelected = game.buffsSelected + 1
@@ -190,7 +193,7 @@ function love.keypressed(key)
                 if utils.isNearCustomer(player, c, 60) then
                     if player.hasPlate then
                         if player.plateOrder == c.order then
-                            game.score = game.score + 100 + math.floor(c.patience) * 2
+                            game.score = game.score + (100 + math.floor(c.patience) * 2) * game.scoreMultiplier
                         else
                             game.misses = game.misses + 1
                             game.score = math.max(0, game.score - 30)
@@ -228,6 +231,7 @@ function resetGame()
     game.gameTimer = config.GAME_TIME
     game.spawnTimer = 1
     game.buffsSelected = 0
+    game.scoreMultiplier = 1
     game.menuOpen = false
     game.selectedMenuItem = 1
     game.buffChoices = {}

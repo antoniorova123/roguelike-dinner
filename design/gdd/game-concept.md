@@ -1,7 +1,8 @@
 ---
-status: reverse-documented
+status: reverse-documented + brainstorm enriched
 source: main.lua, player.lua, customer.lua, buff.lua, draw.lua, config.lua
 date: 2026-04-21
+enriched: 2026-04-23
 verified-by: user
 ---
 
@@ -17,9 +18,20 @@ Proyecto Rome is a fast-paced 2D restaurant management game built in LÖVE2D.
 The player controls a waiter navigating a restaurant floor — picking up orders
 from the kitchen, reading tables, and serving customers before their patience
 expires. A roguelike buff system lets the player permanently upgrade their run
-up to three times per session. The goal is to maximize score within a 90-second
-time limit by serving orders correctly, serving them fast, and making smart buff
-choices.
+between days. The goal is to survive a 7-day restaurant campaign by hitting a
+daily money target each shift, then continue into an endless mode that runs
+until a target is missed.
+
+### Run Structure (Vision — partially implemented)
+
+- **One day** = one 90-second shift with a money target
+- **Between days**: choose one of three random buff cards from the pool (permanent for the run)
+- **7-day campaign**: survive all 7 days to unlock endless mode
+- **Endless mode**: days continue with escalating difficulty until a daily target is missed
+- **Fail state**: missing a day's money target ends the run immediately
+
+> **Current prototype**: Single 90-second session with mid-game cube buff trigger.
+> The day/campaign structure is the next implementation milestone.
 
 ## Player Fantasy
 
@@ -178,6 +190,61 @@ All values live in `config.lua`:
 | Max buffs per game | 3 | Roguelike selections per session |
 | Speed buff multiplier | ×1.2 | Speed increase per Speed + selection |
 | Patience buff bonus | +2 s | Patience increase per Patience + selection |
+
+## Game Pillars
+
+Design pillars guide every mechanic and content decision. When two options
+conflict, pillars break the tie. These apply to the 7-day campaign and
+beyond.
+
+### Pillar 1: Chill Until It Isn't
+Every day starts approachable and ends intense. Difficulty comes from customer
+volume escalation, not unfair rules. The pressure spike should feel earned.
+
+*Design test*: If we're debating whether to add a new penalty mechanic, this
+pillar says we only add it if a skilled player could reasonably avoid it.
+
+### Pillar 2: Build Your Day
+The buff selection between days is a meaningful strategic choice. Each buff
+changes how you play the next day. No buff should feel like a wasted pick.
+
+*Design test*: If two buff options feel identical in practice, this pillar says
+one of them needs to be redesigned before it ships.
+
+### Pillar 3: Always Readable
+Players always know where to go, what to pick up, and what a customer wants.
+Visual clarity comes before aesthetics — feedback and legibility are non-negotiable.
+
+*Design test*: If a new customer type or order could be confused with an existing
+one at a glance, this pillar says redesign the visual before shipping.
+
+### Anti-Pillars
+
+- **NOT a cooking sim**: No prep queues, no timers on food preparation — the kitchen is instant. Adding cooking minigames would compromise Pillar 1.
+- **NOT story-driven**: No dialogue, character backstory, or narrative arcs. Story overhead would blow the jam scope.
+- **NOT punishing at the start**: Day 1 must be winnable on a first attempt. A new player hitting game-over on day 1 violates Pillar 1.
+
+---
+
+## Scope Tiers
+
+| Tier | Content | Features | Timeline |
+|------|---------|----------|----------|
+| **MVP** | 5 foods, 6 buffs, 1 layout | 7-day campaign + endless mode | 2–3 weeks |
+| **Vertical Slice** | 5 foods, 10 buffs, 1 layout | Above + SFX polish, readable feedback | 4–6 weeks |
+| **Alpha** | 5 foods, 12+ buffs, 2 layouts | Helper waiter NPC, visual animations | 2–3 months |
+| **Full Vision** | 8+ foods, 15+ buffs, 3 layouts | Achievements, leaderboard, cosmetics | 6+ months |
+
+**MVP core hypothesis**: Players find the serve-customers loop satisfying and
+the between-day buff progression makes them want to play one more day.
+
+**Explicitly NOT in MVP**:
+- Visual animations (sprite-swap or color feedback is sufficient)
+- Helper waiter NPC
+- Per-food prep speed variation
+- Multiple restaurant layouts
+
+---
 
 ## Acceptance Criteria
 

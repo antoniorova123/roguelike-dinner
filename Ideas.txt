@@ -30,3 +30,11 @@ Metas:
 Dinero = Numero
 
 Dias
+
+
+One conflict to address in the next session: The Game State Manager GDD incorrectly lists game.scoreMultiplier as GSM-owned. Run /design-system retrofit design/gdd/game-state-manager.md to fix it before designing the Day Loop system.
+
+Next in order: Day Loop / Campaign (row 3) — both of its Foundation dependencies now have GDDs.
+
+
+When you return, run /consistency-check before starting Player Movement — the Day Loop introduces several new constants and the game.effective.* contract that should be verified against the other GDDs first.

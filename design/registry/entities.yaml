@@ -1,0 +1,146 @@
+# Entity Registry — Proyecto Rome
+# Cross-system facts: formulas, constants, entities, and items shared across GDDs.
+# Source GDD owns the value; other GDDs reference it here.
+# Never modify a value field without surfacing it as a conflict first.
+
+formulas:
+  - name: correct_serve_score
+    expression: "floor(100 + patience * 2) * scoreMultiplier"
+    variables:
+      patience: {type: float, range: "0.0–20.0", unit: seconds}
+      scoreMultiplier: {type: int, range: "1, 2, 4, 8...", unit: multiplier}
+    output: {range: "100–140 x M", unit: points}
+    source: design/gdd/score-system.md
+    referenced_by: [order-kitchen-system, customer-system]
+
+  - name: wrong_serve_penalty
+    expression: "max(0, score - 30)"
+    variables:
+      score: {type: int, range: "0–∞", unit: points}
+    output: {range: "0 to (score - 30)", unit: points}
+    note: "Flat deduction; unaffected by scoreMultiplier"
+    source: design/gdd/score-system.md
+    referenced_by: [order-kitchen-system]
+
+  - name: customer_leave_penalty
+    expression: "max(0, score - 50)"
+    variables:
+      score: {type: int, range: "0–∞", unit: points}
+    output: {range: "0 to (score - 50)", unit: points}
+    note: "Flat deduction; unaffected by scoreMultiplier"
+    source: design/gdd/score-system.md
+    referenced_by: [customer-system]
+
+  - name: score_multiplier_application
+    expression: "scoreMultiplier = scoreMultiplier * 2"
+    variables:
+      scoreMultiplier: {type: int, range: "1, 2, 4, 8...", unit: multiplier}
+    output: {range: "2x current multiplier", note: "No hard cap; persists across days; resets to 1 on new run only"}
+    source: design/gdd/score-system.md
+    referenced_by: [buff-system]
+
+  - name: endless_daily_target
+    expression: "DAILY_TARGETS[7] + (currentDay - 7) * ENDLESS_TARGET_STEP"
+    variables:
+      DAILY_TARGETS_7: {type: int, value: 2100, unit: points}
+      currentDay: {type: int, range: "8–∞", unit: day}
+      ENDLESS_TARGET_STEP: {type: int, value: 350, unit: "pts/day"}
+    output: {range: "2450–∞", unit: points}
+    source: design/gdd/day-loop.md
+    referenced_by: []
+
+  - name: endless_spawn_interval
+    expression: "math.max(1.5, previousSpawnInterval - 0.15)"
+    variables:
+      previousSpawnInterval: {type: float, range: "1.5–2.2", unit: seconds}
+    output: {range: "1.5–2.05", unit: seconds}
+    note: "Floor 1.5 s; applied per endless day"
+    source: design/gdd/day-loop.md
+    referenced_by: [customer-system]
+
+  - name: endless_customer_patience
+    expression: "math.max(8.0, previousCustomerPatience - 0.8)"
+    variables:
+      previousCustomerPatience: {type: float, range: "8.0–12.0", unit: seconds}
+    output: {range: "8.0–11.2", unit: seconds}
+    note: "Floor 8.0 s; applied per endless day"
+    source: design/gdd/day-loop.md
+    referenced_by: [customer-system]
+
+constants:
+  - name: SERVE_BASE_SCORE
+    value: 100
+    unit: points
+    source: design/gdd/score-system.md
+    config_key: SERVE_BASE_SCORE
+    referenced_by: [score-system, order-kitchen-system]
+
+  - name: SERVE_PATIENCE_BONUS
+    value: 2
+    unit: pts/s
+    source: design/gdd/score-system.md
+    config_key: SERVE_PATIENCE_BONUS
+    referenced_by: [score-system, order-kitchen-system]
+
+  - name: WRONG_SERVE_PENALTY
+    value: 30
+    unit: points
+    source: design/gdd/score-system.md
+    config_key: WRONG_SERVE_PENALTY
+    referenced_by: [score-system, order-kitchen-system]
+
+  - name: LEAVE_PENALTY
+    value: 50
+    unit: points
+    source: design/gdd/score-system.md
+    config_key: LEAVE_PENALTY
+    referenced_by: [score-system, customer-system]
+
+  - name: ENDLESS_TARGET_STEP
+    value: 350
+    unit: pts/day
+    source: design/gdd/day-loop.md
+    config_key: ENDLESS_TARGET_STEP
+    referenced_by: [day-loop]
+
+  - name: MIN_ENDLESS_SPAWN
+    value: 1.5
+    unit: seconds
+    source: design/gdd/day-loop.md
+    config_key: MIN_ENDLESS_SPAWN
+    referenced_by: [day-loop, customer-system]
+
+  - name: MIN_ENDLESS_PATIENCE
+    value: 8.0
+    unit: seconds
+    source: design/gdd/day-loop.md
+    config_key: MIN_ENDLESS_PATIENCE
+    referenced_by: [day-loop, customer-system]
+
+  - name: ENDLESS_SPAWN_STEP
+    value: 0.15
+    unit: s/day
+    source: design/gdd/day-loop.md
+    config_key: ENDLESS_SPAWN_STEP
+    referenced_by: [day-loop]
+
+  - name: ENDLESS_PATIENCE_STEP
+    value: 0.8
+    unit: s/day
+    source: design/gdd/day-loop.md
+    config_key: ENDLESS_PATIENCE_STEP
+    referenced_by: [day-loop]
+
+  - name: DAILY_TARGET_DAY1
+    value: 400
+    unit: points
+    source: design/gdd/day-loop.md
+    config_key: "DAILY_TARGETS[1]"
+    referenced_by: [day-loop]
+
+  - name: DAILY_TARGET_DAY7
+    value: 2100
+    unit: points
+    source: design/gdd/day-loop.md
+    config_key: "DAILY_TARGETS[7]"
+    referenced_by: [day-loop]
